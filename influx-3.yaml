@@ -23,34 +23,11 @@ spec:
                 app: influxdb
         spec:
             containers:
-              - image: influxdb:2.6.1
+              - image: influxdb:2.0.6
                 name: influxdb
                 ports:
                   - containerPort: 8086
-                    name: http-influxdb
-                    protocol: TCP
-                readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /robots.txt
-              port: 3000
-              scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 30
-            successThreshold: 1
-            timeoutSeconds: 2
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 3000
-            timeoutSeconds: 1
-          resources:
-            requests:
-              cpu: 250m
-              memory: 750Mi
+                    name: influxdb
                 volumeMounts:
                   - mountPath: /var/lib/influxdb2
                     name: data
@@ -74,9 +51,7 @@ spec:
     ports:
       - name: influxdb
         port: 8086
-        protocol: TCP
-        targetPort: http-influxdb
+        targetPort: 8086
     selector:
         app: influxdb
-    sessionAffinity: None
     type: LoadBalancer
